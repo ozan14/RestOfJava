@@ -17,15 +17,32 @@ public class Program {
         // Draw a short red diagonal on the canvas
         canvas.pause();
         canvas.setColor(Color.red);
-        GetY y = (x) -> {
+        GetY sin = (x) -> {
         	return (int) (200 * Math.sin(Math.PI * x/360)); 
         };
-        for (int x = -360; x < 360; x++) {
-            canvas.plot(x, y.calcY(x));
-        }
+        GetY quadratic = (x) -> {
+        	return (int) ((x-200)* (x+200)/250);
+        };
+        GetY log = (x) -> {
+        	return (int) (20 * Math.log(x));
+        };
+        
+        GetY cubic = (x) -> { 
+        	return (int) (Math.pow(x, 3) / 200000);
+        };
+        GetY[] functions = {sin, quadratic, log, cubic};
+        plotFunction(sin, quadratic, log, cubic);
+        
 
         // Pause and close the canvas then terminate the program.
         canvas.pause();
         canvas.close();
+    }
+    public static void plotFunction(GetY... functions) {
+    	for(int i = 0; i<functions.length; i++) {
+    		for (int x = -360; x < 360; x++) {
+            canvas.plot(x, functions[i].calcY(x));
+    		}
+    	}
     }
 }
